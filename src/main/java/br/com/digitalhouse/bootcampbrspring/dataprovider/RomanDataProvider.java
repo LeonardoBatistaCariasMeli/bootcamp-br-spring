@@ -13,6 +13,5 @@ public class RomanDataProvider implements RomanGateway {
 		
 		return RomanRepositoryFake.getRomanNumberOf(number);
 	}
-
 	
 }
