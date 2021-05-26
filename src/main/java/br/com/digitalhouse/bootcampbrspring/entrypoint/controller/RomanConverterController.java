@@ -11,7 +11,7 @@ import br.com.digitalhouse.bootcampbrspring.usecase.RomanUseCase;
 @RestController
 public class RomanConverterController {
 
-	private final RomanUseCase romanUseCase;
+	private RomanUseCase romanUseCase;
 
 	public RomanConverterController(RomanUseCase romanUseCase) {
 		this.romanUseCase = romanUseCase;
