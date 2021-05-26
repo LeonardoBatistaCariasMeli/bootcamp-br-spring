@@ -6,9 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.digitalhouse.bootcampbrspring.usecase.RomanUseCase;
-
-@RestController
 @RequestMapping("/roman")
+@RestController
 public class RomanConverterController {
 
 	private final RomanUseCase romanUseCase;
@@ -16,10 +15,9 @@ public class RomanConverterController {
 	public RomanConverterController(RomanUseCase romanUseCase) {
 		this.romanUseCase = romanUseCase;
 	}
-	
-	@GetMapping()
+
+	@GetMapping("/{number}")
 	public String getNumberInRoman(@PathVariable int number) {
-		
 		return romanUseCase.numberConverter(number);
 	}
 	
