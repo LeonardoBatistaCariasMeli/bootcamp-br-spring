@@ -1,6 +1,6 @@
 package br.com.digitalhouse.bootcampbrspring.dataprovider.repository;
 
-public class RomanDadosFake {
+public class RomanRepositoryFake {
 	private static int[] values = {1000,900,500,400,100,90,50,40,10,9,5,4,1};
     private static String[] romanLiterals = {"M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"};
     
@@ -17,8 +17,6 @@ public class RomanDadosFake {
 	            roman.append(romanLiterals[i]);
 	        }
 	    }
-	    System.out.println("Roman: " + roman.toString());
-	    System.out.println("---------------------------------------------------");
 	    return roman.toString();
 	}
 			

@@ -17,10 +17,10 @@ public class RomanConverterController {
 		this.romanUseCase = romanUseCase;
 	}
 	
-	@GetMapping()
-	public String getNumberInRoman(@PathVariable int number) {
+	@GetMapping("/{number}")
+	public String getNumberInRoman(@PathVariable("number") Integer number) {
 		
 		return romanUseCase.numberConverter(number);
-	}
+	}	
 	
 }
