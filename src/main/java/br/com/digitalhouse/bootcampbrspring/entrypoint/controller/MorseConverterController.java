@@ -1,6 +1,6 @@
 package br.com.digitalhouse.bootcampbrspring.entrypoint.controller;
 
-import br.com.digitalhouse.bootcampbrspring.entrypoint.controller.requests.MorseRequest;
+import br.com.digitalhouse.bootcampbrspring.usecase.model.MorseRequest;
 import br.com.digitalhouse.bootcampbrspring.usecase.MorseUseCase;
 import org.springframework.web.bind.annotation.*;
 

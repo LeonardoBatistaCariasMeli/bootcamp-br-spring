@@ -25,7 +25,7 @@ public class ControllerExceptionHandler {
 	@ExceptionHandler(DataIntegrityException.class)
 	public ResponseEntity<StandardError> dataIntegrity(DataIntegrityException e, HttpServletRequest request) {
 
-		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), "Integrity data");
+		StandardError err = new StandardError(System.currentTimeMillis(),HttpStatus.BAD_REQUEST.value(), "Integrity data",e.getMessage(),request.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
