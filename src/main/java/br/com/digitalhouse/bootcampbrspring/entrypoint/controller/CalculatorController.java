@@ -1,10 +1,9 @@
 package br.com.digitalhouse.bootcampbrspring.entrypoint.controller;
 
+import br.com.digitalhouse.bootcampbrspring.domain.entity.House;
 import br.com.digitalhouse.bootcampbrspring.usecase.CalculatorUseCase;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import br.com.digitalhouse.bootcampbrspring.usecase.model.HouseResponse;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
@@ -25,5 +24,11 @@ public class CalculatorController {
         var age = calculatorUseCase.calculateAge(birthdate);
 
         return age == 0 ? "É UM BEBÊ" : "IDADE: " + age + " anos";
+    }
+
+    @PostMapping("/house")
+    public HouseResponse squareCalculator(@RequestBody House house) {
+
+        return this.calculatorUseCase.calculateSquareMeters(house);
     }
 }
