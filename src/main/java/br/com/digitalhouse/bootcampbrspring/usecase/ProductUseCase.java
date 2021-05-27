@@ -1,8 +1,12 @@
 package br.com.digitalhouse.bootcampbrspring.usecase;
 
-import br.com.digitalhouse.bootcampbrspring.domain.entity.Product;
-import br.com.digitalhouse.bootcampbrspring.usecase.model.ProductRequest;
+import java.util.List;
+
+import br.com.digitalhouse.bootcampbrspring.usecase.model.request.ProductRequest;
+import br.com.digitalhouse.bootcampbrspring.usecase.model.response.ProductResponse;
 
 public interface ProductUseCase {
-    Product create(ProductRequest product);
+    ProductResponse create(ProductRequest product);
+    ProductResponse findById(Long productId);
+    List<ProductResponse> findAll();
 }

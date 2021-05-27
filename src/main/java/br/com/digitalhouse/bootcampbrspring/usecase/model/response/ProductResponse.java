@@ -1,21 +1,17 @@
-package br.com.digitalhouse.bootcampbrspring.domain.entity;
+package br.com.digitalhouse.bootcampbrspring.usecase.model.response;
 
-public class Product {
-
+public class ProductResponse {
 	private Long id;
 	private String description;
 	private String name;
 	private double price;
 
-	public Product() {
-	}
-
-	public Product(Long id, String description, String name, double price) {
-		this.id = id;
-		this.description = description;
-		this.name = name;
-		this.price = price;
-	}
+	public ProductResponse(Long id, String description, String name, double price) {
+        this.id = id;
+        this.description = description;
+        this.name = name;
+        this.price = price;
+    }
 
 	public String getDescription() {
 		return description;

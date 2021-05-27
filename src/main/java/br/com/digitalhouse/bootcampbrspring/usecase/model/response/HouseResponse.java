@@ -1,4 +1,4 @@
-package br.com.digitalhouse.bootcampbrspring.usecase.model;
+package br.com.digitalhouse.bootcampbrspring.usecase.model.response;
 
 import br.com.digitalhouse.bootcampbrspring.domain.entity.Room;
 

@@ -4,8 +4,9 @@ import br.com.digitalhouse.bootcampbrspring.domain.entity.House;
 import br.com.digitalhouse.bootcampbrspring.domain.entity.Room;
 import br.com.digitalhouse.bootcampbrspring.usecase.CalculatorUseCase;
 import br.com.digitalhouse.bootcampbrspring.usecase.exceptions.DataIntegrityException;
-import br.com.digitalhouse.bootcampbrspring.usecase.model.HouseResponse;
-import br.com.digitalhouse.bootcampbrspring.usecase.model.RoomResponse;
+import br.com.digitalhouse.bootcampbrspring.usecase.model.response.HouseResponse;
+import br.com.digitalhouse.bootcampbrspring.usecase.model.response.RoomResponse;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

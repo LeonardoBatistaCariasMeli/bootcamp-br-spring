@@ -1,4 +1,4 @@
-package br.com.digitalhouse.bootcampbrspring.usecase.model;
+package br.com.digitalhouse.bootcampbrspring.usecase.model.request;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;

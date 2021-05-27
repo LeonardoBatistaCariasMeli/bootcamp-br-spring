@@ -2,7 +2,8 @@ package br.com.digitalhouse.bootcampbrspring.entrypoint.controller;
 
 import br.com.digitalhouse.bootcampbrspring.domain.entity.House;
 import br.com.digitalhouse.bootcampbrspring.usecase.CalculatorUseCase;
-import br.com.digitalhouse.bootcampbrspring.usecase.model.HouseResponse;
+import br.com.digitalhouse.bootcampbrspring.usecase.model.response.HouseResponse;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
