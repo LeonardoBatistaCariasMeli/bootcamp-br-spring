@@ -4,11 +4,15 @@ import br.com.digitalhouse.bootcampbrspring.domain.entity.House;
 import br.com.digitalhouse.bootcampbrspring.domain.entity.Room;
 import br.com.digitalhouse.bootcampbrspring.usecase.CalculatorUseCase;
 import br.com.digitalhouse.bootcampbrspring.usecase.exceptions.DataIntegrityException;
+import br.com.digitalhouse.bootcampbrspring.usecase.model.request.StudentRequest;
+import br.com.digitalhouse.bootcampbrspring.usecase.model.request.SubjectRequest;
 import br.com.digitalhouse.bootcampbrspring.usecase.model.response.HouseResponse;
 import br.com.digitalhouse.bootcampbrspring.usecase.model.response.RoomResponse;
 
+import br.com.digitalhouse.bootcampbrspring.usecase.model.response.StudentResponse;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -32,6 +36,32 @@ public class CalculatorUseCaseImpl implements CalculatorUseCase {
     public HouseResponse calculateSquareMeters(House house) {
 
         return createHouseResponse(house);
+    }
+
+    @Override
+    public StudentResponse calculateAverageGrade(StudentRequest student) {
+
+        if (student == null || student.getSubjects() == null || student.getSubjects().size() <= 0) {
+            throw new DataIntegrityException("Nao envie objetos vazios!!!");
+        }
+
+        var average = student.getSubjects().stream()
+                .mapToDouble(SubjectRequest::getGrade)
+                .reduce(0, Double::sum);
+
+        average /= student.getSubjects().size();
+
+        var message = "";
+        if (average >= 9) {
+            message = "Parabéns";
+        }
+        else {
+            message = "Busque melhorar";
+        }
+
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        return new StudentResponse(student.getName(), message, Double.parseDouble(df.format(average)));
     }
 
     private HouseResponse createHouseResponse(House house) {

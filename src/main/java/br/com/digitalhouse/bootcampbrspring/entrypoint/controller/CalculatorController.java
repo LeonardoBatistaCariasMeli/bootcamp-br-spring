@@ -2,6 +2,7 @@ package br.com.digitalhouse.bootcampbrspring.entrypoint.controller;
 
 import java.time.LocalDate;
 
+import br.com.digitalhouse.bootcampbrspring.usecase.model.request.StudentRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,10 +46,24 @@ public class CalculatorController {
 	}
 
 	@PostMapping("/house")
-	public ResponseEntity<Object> squareCalculator(@RequestBody House house) {
+	public ResponseEntity<Object> areaCalculator(@RequestBody House house) {
 		try {
 
 			return new ResponseEntity<>(this.calculatorUseCase.calculateSquareMeters(house), HttpStatus.OK);
+		} catch (RuntimeException ex) {
+
+			return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception ex) {
+
+			return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@PostMapping("/average-grade")
+	public ResponseEntity<Object> gradeCalculator(@RequestBody StudentRequest student) {
+		try {
+
+			return new ResponseEntity<>(this.calculatorUseCase.calculateAverageGrade(student), HttpStatus.OK);
 		} catch (RuntimeException ex) {
 
 			return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
