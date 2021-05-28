@@ -6,7 +6,7 @@ import br.com.digitalhouse.bootcampbrspring.usecase.model.response.CashBoxRespon
 import br.com.digitalhouse.bootcampbrspring.usecase.model.response.OrderResponse;
 import br.com.digitalhouse.bootcampbrspring.usecase.model.response.TableResponse;
 
-public interface OrderUseCase {
+public interface TableUseCase {
     TableResponse getOrdersByTable(Integer tableId);
     void registerAnOrder(OrderRequest request);
     Double closeOrder(Integer tableId);

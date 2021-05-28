@@ -1,30 +1,20 @@
 package br.com.digitalhouse.bootcampbrspring.usecase.model.request;
 
 public class DishRequest {
-    private double price;
-    private String description;
+    private Integer dishId;
     private Integer quantity;
 
-    public DishRequest(double price, String description, Integer quantity) {
-        this.price = price;
-        this.description = description;
+    public DishRequest(Integer dishId, Integer quantity) {
+        this.dishId = dishId;
         this.quantity = quantity;
     }
 
-    public double getPrice() {
-        return price;
+    public Integer getDishId() {
+        return dishId;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDishId(Integer dishId) {
+        this.dishId = dishId;
     }
 
     public Integer getQuantity() {

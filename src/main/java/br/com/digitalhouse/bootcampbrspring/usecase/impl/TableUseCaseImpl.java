@@ -3,8 +3,8 @@ package br.com.digitalhouse.bootcampbrspring.usecase.impl;
 import br.com.digitalhouse.bootcampbrspring.domain.entity.Dish;
 import br.com.digitalhouse.bootcampbrspring.domain.entity.Order;
 import br.com.digitalhouse.bootcampbrspring.domain.entity.Table;
-import br.com.digitalhouse.bootcampbrspring.domain.entity.mapper.DishMapper;
-import br.com.digitalhouse.bootcampbrspring.usecase.OrderUseCase;
+import br.com.digitalhouse.bootcampbrspring.usecase.DishUseCase;
+import br.com.digitalhouse.bootcampbrspring.usecase.TableUseCase;
 import br.com.digitalhouse.bootcampbrspring.usecase.exceptions.DataIntegrityException;
 import br.com.digitalhouse.bootcampbrspring.usecase.exceptions.ObjectNotFoundException;
 import br.com.digitalhouse.bootcampbrspring.usecase.model.mapper.TableResponseMapper;
@@ -16,12 +16,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
-public class OrderUseCaseImpl implements OrderUseCase {
+public class TableUseCaseImpl implements TableUseCase {
     private static List<Table> tables = new ArrayList<>();
     private static Double cashBox = 0.0;
+
+    private DishUseCase dishUseCase;
+
+    public TableUseCaseImpl(DishUseCase dishUseCase) {
+        this.dishUseCase = dishUseCase;
+    }
+
     @Override
     public TableResponse getOrdersByTable(Integer tableId) {
         if (this.isSomeoneUsingTable(tableId)) {
@@ -49,44 +55,52 @@ public class OrderUseCaseImpl implements OrderUseCase {
     public void registerAnOrder(OrderRequest request) {
         var order = assembleOrderOf(request);
         if (this.isSomeoneUsingTable(request.getTableId())) {
-            for (Table t : this.tables) {
-                if (t.getId() == request.getTableId()) {
-                    Integer lastIndex = getNextIndexOrderOf(t.getOrders());
-                    order.setId(lastIndex);
-                    t.addOrder(order);
-                }
-            }
+            this.addInUsedTable(order, request.getTableId());
         } else {
             this.addNewTable(order);
         }
     }
 
-    private void addNewTable(Order order) {
+    private Table addInUsedTable(Order order, Integer tableId) {
+        for (Table t : this.tables) {
+            if (t.getId() == tableId) {
+                Integer lastIndex = getNextIndexOrderOf(t.getOrders());
+                order.setId(lastIndex);
+                t.addOrder(order);
+                return t;
+            }
+        }
+        return null;
+    }
+
+    private Table addNewTable(Order order) {
         order.setId(1);
         var listOrder = new ArrayList<Order>();
         listOrder.add(order);
         var table = new Table(order.getTableId(), listOrder, 0);
         this.tables.add(table);
+        return table;
     }
 
     private Order assembleOrderOf(OrderRequest request) {
-        var totalValue = sumDishValues(request.getDishs());
-        return new Order(null, request.getTableId(), assembleListDishOf(request.getDishs()), totalValue);
+        var dishes = assembleListDishOf(request.getDishs());
+        var totalValue = sumDishValues(dishes);
+        return new Order(null, request.getTableId(), dishes, totalValue);
     }
 
     private List<Dish> assembleListDishOf(List<DishRequest> list) {
-        return list.stream().map(DishMapper::assembleDishOf).collect(Collectors.toList());
+        return this.dishUseCase.getDishesOf(list);
     }
 
-    private double sumDishValues(List<DishRequest> dishs) {
-        return dishs.stream().map(d -> d.getPrice() * d.getQuantity()).reduce(0.0, Double::sum);
+    private double sumDishValues(List<Dish> dishes) {
+        return dishes.stream().map(d -> d.getPrice() * d.getQuantity()).reduce(0.0, Double::sum);
     }
 
     private Integer getNextIndexOrderOf(List<Order> orders) {
-        Integer lastIndex = 1;
+        Integer lastIndex = 0;
         for (Order o : orders) {
             if (o.getId() > lastIndex)
-                lastIndex = o.getId();
+                lastIndex = o.getId() + 1;
         }
         return lastIndex;
     }
