@@ -2,6 +2,7 @@ package br.com.digitalhouse.bootcampbrspring.entrypoint.controller;
 
 import java.time.LocalDate;
 
+import br.com.digitalhouse.bootcampbrspring.usecase.model.request.FoodRequest;
 import br.com.digitalhouse.bootcampbrspring.usecase.model.request.StudentRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,4 +73,19 @@ public class CalculatorController {
 			return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	@PostMapping("/calories")
+	public ResponseEntity<Object> getCalories (@RequestBody FoodRequest foodRequest) {
+		try {
+
+			return new ResponseEntity<>(this.calculatorUseCase.calculateCalories(foodRequest), HttpStatus.OK);
+		} catch (RuntimeException ex) {
+
+			return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception ex) {
+
+			return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 }

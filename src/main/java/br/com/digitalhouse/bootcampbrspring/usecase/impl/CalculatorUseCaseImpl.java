@@ -1,21 +1,23 @@
 package br.com.digitalhouse.bootcampbrspring.usecase.impl;
 
+import br.com.digitalhouse.bootcampbrspring.dataprovider.repository.IngredientRepository;
 import br.com.digitalhouse.bootcampbrspring.domain.entity.House;
 import br.com.digitalhouse.bootcampbrspring.domain.entity.Room;
 import br.com.digitalhouse.bootcampbrspring.usecase.CalculatorUseCase;
 import br.com.digitalhouse.bootcampbrspring.usecase.exceptions.DataIntegrityException;
+import br.com.digitalhouse.bootcampbrspring.usecase.model.request.FoodRequest;
+import br.com.digitalhouse.bootcampbrspring.usecase.model.request.IngredientRequest;
 import br.com.digitalhouse.bootcampbrspring.usecase.model.request.StudentRequest;
 import br.com.digitalhouse.bootcampbrspring.usecase.model.request.SubjectRequest;
-import br.com.digitalhouse.bootcampbrspring.usecase.model.response.HouseResponse;
-import br.com.digitalhouse.bootcampbrspring.usecase.model.response.RoomResponse;
+import br.com.digitalhouse.bootcampbrspring.usecase.model.response.*;
 
-import br.com.digitalhouse.bootcampbrspring.usecase.model.response.StudentResponse;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CalculatorUseCaseImpl implements CalculatorUseCase {
@@ -62,6 +64,28 @@ public class CalculatorUseCaseImpl implements CalculatorUseCase {
         DecimalFormat df = new DecimalFormat("0.00");
 
         return new StudentResponse(student.getName(), message, Double.parseDouble(df.format(average)));
+    }
+
+    @Override
+    public FoodResponse calculateCalories(FoodRequest foodRequest) {
+        List<IngredientResponse> ingredientResponses = new ArrayList<>();
+        var ingredientCalories = IngredientRepository.findAll(foodRequest.getIngredients());
+        double totalCalories = 0, mostCaloric = 0;
+        String mostCaloricIngredient = "";
+
+        for(var ingredientData : ingredientCalories) {
+            var ingredientRequest = foodRequest.getIngredients().stream().filter(i -> i.getName().equals(ingredientData.getName())).findFirst().get();
+            double calories = ingredientData.getCalories() * ingredientRequest.getWeight();
+            totalCalories += calories;
+            if(calories > mostCaloric) {
+                mostCaloric = calories;
+                mostCaloricIngredient = ingredientData.getName();
+            }
+            ingredientResponses.add(new IngredientResponse(ingredientData.getName(),calories));
+        }
+
+        return new FoodResponse(totalCalories,ingredientResponses,mostCaloricIngredient);
+
     }
 
     private HouseResponse createHouseResponse(House house) {
