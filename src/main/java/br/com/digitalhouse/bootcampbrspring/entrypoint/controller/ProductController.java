@@ -31,7 +31,7 @@ public class ProductController {
     public ResponseEntity<Void> create(@Valid @RequestBody ProductRequest product){
         var response = this.productUseCase.create(product);
         var uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{product_id}").buildAndExpand(response.getId()).toUri();
-        
+
         return ResponseEntity.created(uri).build();
     }
     
