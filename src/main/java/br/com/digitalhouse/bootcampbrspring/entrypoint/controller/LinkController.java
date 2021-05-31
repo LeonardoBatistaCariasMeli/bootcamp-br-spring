@@ -5,7 +5,6 @@ import br.com.digitalhouse.bootcampbrspring.usecase.model.response.LinkResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URL;
@@ -20,11 +19,13 @@ public class LinkController {
 
     @PostMapping
     public ResponseEntity<LinkResponse> createLink(@RequestBody LinkRequest request){
-        if (!validateUri(request.getUri())) {
+        var uri = request.getProtocol() + "://" + request.getHost() + "/" + request.getEndpoint();
+
+        if (!validateUri(uri)) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
 
-        var response = new LinkResponse(UUID.randomUUID(), request.getUri());
+        var response = new LinkResponse(request.getName(), uri, request.getProtocol(), request.getHost(), request.getEndpoint());
 
         links.add(response);
 
