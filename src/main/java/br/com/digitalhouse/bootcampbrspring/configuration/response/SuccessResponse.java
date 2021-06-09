@@ -15,6 +15,5 @@ public class SuccessResponse<T> {
 	public void setData(T data) {
 		this.data = data;
 	}
-	
-	
+
 }

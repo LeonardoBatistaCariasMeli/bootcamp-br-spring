@@ -49,7 +49,7 @@ public class ProductDataProvider implements ProductGateway {
 		return ProductMapper.fromProductDataList(products);
 	}
 	
-	private void validatesIfProudctExists(Optional<ProductData> data) {
+		private void validatesIfProudctExists(Optional<ProductData> data) {
 		if(!data.isPresent())
 			throw new ObjectNotFoundException("There are no products to the specifications");
 	}

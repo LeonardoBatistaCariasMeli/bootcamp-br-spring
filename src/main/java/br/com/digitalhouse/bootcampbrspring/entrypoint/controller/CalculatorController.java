@@ -6,15 +6,12 @@ import br.com.digitalhouse.bootcampbrspring.usecase.model.request.FoodRequest;
 import br.com.digitalhouse.bootcampbrspring.usecase.model.request.StudentRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.digitalhouse.bootcampbrspring.domain.entity.House;
 import br.com.digitalhouse.bootcampbrspring.usecase.CalculatorUseCase;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/calculator")
@@ -60,14 +57,11 @@ public class CalculatorController {
 		}
 	}
 
-	@PostMapping("/average-grade")
-	public ResponseEntity<Object> gradeCalculator(@RequestBody StudentRequest student) {
+	@PostMapping("/analyzeNotes")
+	public ResponseEntity<Object> gradeCalculator(@Valid @RequestBody StudentRequest student) {
 		try {
 
-			return new ResponseEntity<>(this.calculatorUseCase.calculateAverageGrade(student), HttpStatus.OK);
-		} catch (RuntimeException ex) {
-
-			return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(this.calculatorUseCase.calculateAverageGrade(student), HttpStatus.CREATED);
 		} catch (Exception ex) {
 
 			return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

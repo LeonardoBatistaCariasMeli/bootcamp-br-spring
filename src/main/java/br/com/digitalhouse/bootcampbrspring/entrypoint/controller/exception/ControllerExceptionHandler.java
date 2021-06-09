@@ -2,6 +2,7 @@ package br.com.digitalhouse.bootcampbrspring.entrypoint.controller.exception;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -11,9 +12,28 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.com.digitalhouse.bootcampbrspring.usecase.exceptions.DataIntegrityException;
 import br.com.digitalhouse.bootcampbrspring.usecase.exceptions.ObjectNotFoundException;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class ControllerExceptionHandler {
+public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
+
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+		return super.handleMethodArgumentNotValid(ex, headers, status, request);
+
+//		List<SubError> errors = new ArrayList<>();
+//
+//		ex.getBindingResult().getAllErrors().forEach((error) -> {
+//			String fieldName = ((FieldError) error).getField();
+//			errors.add(new ValidationSubError(error.getDefaultMessage(),error.getObjectName(),fieldName));
+//		});
+
+//		var apiErro = new ApiError(HttpStatus.BAD_REQUEST,"Errors in send data of request",ex);
+//		apiErro.setErros(errors);
+
+//		return buildResponseEntity(apiErro);
+	}
 
 	@ExceptionHandler(ObjectNotFoundException.class)
 	public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request) {
@@ -31,17 +51,4 @@ public class ControllerExceptionHandler {
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
-
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<StandardError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
-
-		ValidationError err = new ValidationError(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Validation error");
-
-		for (FieldError x : e.getBindingResult().getFieldErrors()) {
-			err.addError(x.getField(), x.getDefaultMessage());
-		}
-
-		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
-	}
-
 }

@@ -55,15 +55,15 @@ public class CalculatorUseCaseImpl implements CalculatorUseCase {
 
         var message = "";
         if (average >= 9) {
-            message = "Parabéns";
-        }
-        else {
-            message = "Busque melhorar";
+            message = "Parabéns! ";
         }
 
         DecimalFormat df = new DecimalFormat("0.00");
+        var grade = Double.parseDouble(df.format(average));
 
-        return new StudentResponse(student.getName(), message, Double.parseDouble(df.format(average)));
+        message += "Sua média foi de " + grade;
+
+        return new StudentResponse(message, grade, student);
     }
 
     @Override

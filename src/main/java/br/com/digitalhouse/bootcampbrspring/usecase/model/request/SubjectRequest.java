@@ -1,11 +1,21 @@
 package br.com.digitalhouse.bootcampbrspring.usecase.model.request;
 
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class SubjectRequest {
 
+    @NotNull
+    @NotBlank
+    @Size(min = 1, max = 255)
     private String name;
-    private double grade;
 
-    public SubjectRequest(String name, double grade) {
+    @NotNull
+    private Double grade;
+
+    public SubjectRequest(String name, Double grade) {
         this.name = name;
         this.grade = grade;
     }
@@ -18,11 +28,11 @@ public class SubjectRequest {
         this.name = name;
     }
 
-    public double getGrade() {
+    public Double getGrade() {
         return grade;
     }
 
-    public void setGrade(double grade) {
+    public void setGrade(Double grade) {
         this.grade = grade;
     }
 }

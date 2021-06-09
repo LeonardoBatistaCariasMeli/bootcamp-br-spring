@@ -6,8 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.GenerationType;
 
-
-
 @Entity
 @Table(name = "Product")
 public class ProductData {

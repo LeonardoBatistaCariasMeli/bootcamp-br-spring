@@ -4,25 +4,17 @@ import br.com.digitalhouse.bootcampbrspring.usecase.model.request.StudentRequest
 
 public class StudentResponse {
 
-    private String name;
     private String message;
-    private double gradeAverage;
+    private double average;
+    private StudentRequest student;
 
     public StudentResponse() {
     }
 
-    public StudentResponse(String name, String message, double gradeAverage) {
-        this.name = name;
+    public StudentResponse(String message, double average, StudentRequest student) {
         this.message = message;
-        this.gradeAverage = gradeAverage;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        this.average = average;
+        this.student = student;
     }
 
     public String getMessage() {
@@ -33,11 +25,19 @@ public class StudentResponse {
         this.message = message;
     }
 
-    public double getGradeAverage() {
-        return gradeAverage;
+    public double getAverage() {
+        return average;
     }
 
-    public void setGradeAverage(double gradeAverage) {
-        this.gradeAverage = gradeAverage;
+    public void setAverage(double average) {
+        this.average = average;
+    }
+
+    public StudentRequest getStudent() {
+        return student;
+    }
+
+    public void setStudent(StudentRequest student) {
+        this.student = student;
     }
 }
